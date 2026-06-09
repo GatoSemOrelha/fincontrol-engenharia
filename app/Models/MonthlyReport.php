@@ -51,13 +51,6 @@ class MonthlyReport extends Model
      */
     public function periodLabel(): string
     {
-        $months = [
-            1 => 'Janeiro', 2 => 'Fevereiro', 3 => 'Março',
-            4 => 'Abril', 5 => 'Maio', 6 => 'Junho',
-            7 => 'Julho', 8 => 'Agosto', 9 => 'Setembro',
-            10 => 'Outubro', 11 => 'Novembro', 12 => 'Dezembro',
-        ];
-
-        return ($months[$this->month] ?? '')." {$this->year}";
+        return \Carbon\Carbon::createFromDate($this->year, $this->month, 1)->translatedFormat('F Y');
     }
 }

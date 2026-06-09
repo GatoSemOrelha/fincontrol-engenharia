@@ -22,7 +22,7 @@
                         <td><span class="tag {{ $cat->type === 'INCOME' ? 'tag-in' : 'tag-out' }}">{{ $cat->type === 'INCOME' ? __('Entrada') : __('Saída') }}</span></td>
                         <td>{{ $cat->transactions_count }}</td>
                         <td style="color:{{ $cat->type === 'INCOME' ? 'var(--color-text-success)' : 'var(--color-text-danger)' }}">
-                            R$ {{ number_format($cat->monthly_total, 2, ',', '.') }}
+                            {{ money($cat->monthly_total) }}
                         </td>
                         <td>
                             @if(auth()->user()->isAdmin())

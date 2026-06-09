@@ -11,13 +11,13 @@
         <div class="metric-card">
             <div class="metric-label">{{ __('Saldo atual (contas)') }}</div>
             <div class="metric-value" style="color:var(--color-text-success)">
-                R$ {{ number_format($projection['current_balance'], 2, ',', '.') }}
+                {{ money($projection['current_balance']) }}
             </div>
         </div>
         <div class="metric-card">
             <div class="metric-label">{{ __('Total em CDB') }}</div>
             <div class="metric-value" style="color:var(--color-text-info)">
-                R$ {{ number_format($projection['cdb_total'], 2, ',', '.') }}
+                {{ money($projection['cdb_total']) }}
             </div>
         </div>
     </div>
@@ -40,14 +40,14 @@
                     @foreach($projection['months'] as $m)
                         <tr>
                             <td style="font-weight:500">{{ $m['label'] }}</td>
-                            <td style="color:var(--color-text-success)">R$ {{ number_format($m['projected_income'], 2, ',', '.') }}</td>
-                            <td style="color:var(--color-text-danger)">R$ {{ number_format($m['projected_expense'], 2, ',', '.') }}</td>
+                            <td style="color:var(--color-text-success)">{{ money($m['projected_income']) }}</td>
+                            <td style="color:var(--color-text-danger)">{{ money($m['projected_expense']) }}</td>
                             <td style="color:{{ $m['net'] >= 0 ? 'var(--color-text-success)' : 'var(--color-text-danger)' }}">
-                                R$ {{ number_format($m['net'], 2, ',', '.') }}
+                                {{ money($m['net']) }}
                             </td>
-                            <td style="color:var(--color-text-info)">R$ {{ number_format($m['cdb_yield'], 2, ',', '.') }}</td>
+                            <td style="color:var(--color-text-info)">{{ money($m['cdb_yield']) }}</td>
                             <td style="font-weight:500;color:{{ $m['total_with_investments'] >= 0 ? 'var(--color-text-success)' : 'var(--color-text-danger)' }}">
-                                R$ {{ number_format($m['total_with_investments'], 2, ',', '.') }}
+                                {{ money($m['total_with_investments']) }}
                             </td>
                         </tr>
                     @endforeach

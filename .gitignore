@@ -16,3 +16,10 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+/storage/framework/cache/data/
+/storage/framework/sessions/
+/storage/framework/testing/
+/storage/framework/views/
+/storage/logs/
+/database/database.sqlite

@@ -52,7 +52,7 @@
                         <td>{{ $tx->bankAccount->name }}</td>
                         <td><span class="tag {{ $tx->transaction_type->cssClass() }}">{{ $tx->transaction_type->label() }}</span></td>
                         <td style="color:{{ $tx->isIncome() ? 'var(--color-text-success)' : 'var(--color-text-danger)' }};font-weight:500">
-                            R$ {{ number_format($tx->amount, 2, ',', '.') }}
+                            {{ money($tx->amount) }}
                         </td>
                         <td>
                             @if($tx->invoice_document_url)
@@ -129,7 +129,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label">{{ __('Valor (R$)') }}</label>
+                    <label class="form-label">{{ __('Valor') }}</label>
                     <input type="number" name="amount" step="0.01" min="0.01" placeholder="0,00" required
                            id="new-amount" onchange="checkImpact()">
                 </div>
@@ -190,7 +190,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
             <div><span style="color:var(--color-text-secondary);font-size:12px">{{ __('Descrição') }}</span><p style="font-weight:500;margin-top:2px">{{ $tx->description }}</p></div>
             <div><span style="color:var(--color-text-secondary);font-size:12px">{{ __('Data vencimento') }}</span><p style="font-weight:500;margin-top:2px">{{ $tx->due_date->format('d/m/Y') }}</p></div>
-            <div><span style="color:var(--color-text-secondary);font-size:12px">{{ __('Valor') }}</span><p style="font-weight:500;margin-top:2px;color:{{ $tx->isIncome() ? 'var(--color-text-success)' : 'var(--color-text-danger)' }}">R$ {{ number_format($tx->amount, 2, ',', '.') }}</p></div>
+            <div><span style="color:var(--color-text-secondary);font-size:12px">{{ __('Valor') }}</span><p style="font-weight:500;margin-top:2px;color:{{ $tx->isIncome() ? 'var(--color-text-success)' : 'var(--color-text-danger)' }}">{{ money($tx->amount) }}</p></div>
             <div><span style="color:var(--color-text-secondary);font-size:12px">{{ __('Conta') }}</span><p style="font-weight:500;margin-top:2px">{{ $tx->bankAccount->name }}</p></div>
             <div><span style="color:var(--color-text-secondary);font-size:12px">{{ __('Categoria') }}</span><p style="font-weight:500;margin-top:2px">{{ $tx->category->name ?? '—' }}</p></div>
             <div><span style="color:var(--color-text-secondary);font-size:12px">{{ __('Status') }}</span><p style="margin-top:4px"><span class="badge badge-success">{{ __('Pago') }}</span></p></div>
@@ -238,7 +238,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label">{{ __('Valor (R$)') }}</label>
+                    <label class="form-label">{{ __('Valor') }}</label>
                     <input type="number" name="amount" step="0.01" min="0.01" value="{{ $tx->amount }}" required>
                 </div>
                 <div class="form-group">
@@ -314,7 +314,7 @@
             const alert = document.getElementById('balance-alert');
             if (data.will_be_negative) {
                 document.getElementById('balance-alert-msg').textContent =
-                    `{{ __('Atenção: A conta') }} "${data.account_name}" {{ __('ficará negativa! Saldo projetado:') }} R$ ${data.projected_balance.toFixed(2).replace('.', ',')}`;
+                    `{{ __('Atenção: A conta') }} "${data.account_name}" {{ __('ficará negativa! Saldo projetado:') }} {{ currency_symbol() }} ${data.projected_balance.toFixed(2).replace('.', ',')}`;
                 alert.style.display = 'flex';
             } else {
                 alert.style.display = 'none';

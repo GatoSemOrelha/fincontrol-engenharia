@@ -14,13 +14,13 @@
         <div class="metric-card">
             <div class="metric-label">{{ __('Total investido') }}</div>
             <div class="metric-value" style="color:var(--color-text-info)">
-                R$ {{ number_format($investments->sum('current_amount'), 2, ',', '.') }}
+                {{ money($investments->sum('current_amount')) }}
             </div>
         </div>
         <div class="metric-card">
             <div class="metric-label">{{ __('Rendimento acumulado') }}</div>
             <div class="metric-value" style="color:var(--color-text-success)">
-                R$ {{ number_format($investments->sum('current_amount') - $investments->sum('initial_amount'), 2, ',', '.') }}
+                {{ money($investments->sum('current_amount') - $investments->sum('initial_amount')) }}
             </div>
         </div>
     </div>
@@ -35,8 +35,8 @@
                     <tr>
                         <td style="font-weight:500">{{ $inv->name }}</td>
                         <td><span class="badge badge-info">{{ $inv->type->label() }}</span></td>
-                        <td>R$ {{ number_format($inv->initial_amount, 2, ',', '.') }}</td>
-                        <td style="color:var(--color-text-success);font-weight:500">R$ {{ number_format($inv->current_amount, 2, ',', '.') }}</td>
+                        <td>{{ money($inv->initial_amount) }}</td>
+                        <td style="color:var(--color-text-success);font-weight:500">{{ money($inv->current_amount) }}</td>
                         <td>{{ number_format($inv->interest_rate, 2, ',', '.') }}% a.a.</td>
                         <td style="font-size:12px">{{ $inv->start_date->format('d/m/Y') }}</td>
                         <td style="font-size:12px">{{ $inv->end_date ? $inv->end_date->format('d/m/Y') : '—' }}</td>
@@ -71,7 +71,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">{{ __('Valor inicial (R$)') }}</label>
+                    <label class="form-label">{{ __('Valor inicial') }}</label>
                     <input type="number" name="initial_amount" step="0.01" min="0.01" required>
                 </div>
             </div>

@@ -16,8 +16,8 @@ enum TransactionStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::PENDING => 'Em aberto',
-            self::PAID => 'Pago',
+            self::PENDING => __('Em aberto'),
+            self::PAID => __('Pago'),
         };
     }
 

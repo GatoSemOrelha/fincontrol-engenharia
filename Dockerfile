@@ -42,7 +42,7 @@ RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-avail
     && a2enmod rewrite headers
 
 # Configurar PHP para produção/desenvolvimento
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY docker/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 # Instalar Composer

@@ -18,10 +18,10 @@ enum InvoiceStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::PENDING => 'Pendente',
-            self::PARTIALLY_PAID => 'Parcialmente pago',
-            self::PAID => 'Pago',
-            self::CANCELED => 'Cancelado',
+            self::PENDING => __('Pendente'),
+            self::PARTIALLY_PAID => __('Parcialmente pago'),
+            self::PAID => __('Pago'),
+            self::CANCELED => __('Cancelado'),
         };
     }
 

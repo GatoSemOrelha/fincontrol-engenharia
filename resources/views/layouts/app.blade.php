@@ -7,14 +7,36 @@
     <title>@yield('title', 'FinControl') — Gestão Financeira</title>
     <meta name="description" content="Sistema de gestão financeira empresarial">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=1.0.3">
+    <meta name="view-transition" content="same-origin">
+    <script type="module">
+        import * as Turbo from 'https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.4/dist/turbo.es2017-esm.js';
+        window.Turbo = Turbo;
+    </script>
+    <style>
+        .turbo-progress-bar { height: 3px; background-color: var(--color-background-info); }
+        /* Fallback nativo do Chrome para caso o Turbo falhe */
+        @view-transition { navigation: auto; }
+    </style>
+    <!-- Script Anti-Flash Branco para Temas -->
+    <script>
+        (function() {
+            try {
+                var theme = localStorage.getItem('theme') || 'system';
+                if (theme === 'system') {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {}
+        })();
+    </script>
     @stack('styles')
 </head>
 <body>
 <div class="app" id="app">
 
     {{-- SIDEBAR --}}
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-logo">
             <i class="ti ti-building-bank"></i>
             FinControl
@@ -65,9 +87,12 @@
                     <i class="ti ti-history"></i>{{ __('Auditoria') }}
                 </a>
             </div>
-            @if(auth()->user()->isAdmin())
             <div class="nav-section">
                 <div class="nav-label">{{ __('Configurações') }}</div>
+                <a href="{{ route('settings.index') }}" class="nav-item {{ request()->routeIs('settings.*') ? 'active' : '' }}">
+                    <i class="ti ti-settings"></i>{{ __('Configurações') }}
+                </a>
+                @if(auth()->user()->isAdmin())
                 <a href="{{ route('users.index') }}" class="nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
                     <i class="ti ti-users"></i>{{ __('Usuários') }}
                 </a>
@@ -75,11 +100,7 @@
             @endif
         </div>
         
-        <div class="user-pill" style="margin-top:auto">
-            <div style="display:flex;gap:10px;margin-right:8px;font-size:11px;font-weight:bold;border-right:1px solid var(--color-border);padding-right:10px;align-items:center;">
-                <a href="{{ route('lang.switch', 'pt_BR') }}" style="text-decoration:none;color: {{ app()->getLocale() == 'pt_BR' ? 'var(--color-primary)' : 'var(--color-text-tertiary)' }}">PT</a>
-                <a href="{{ route('lang.switch', 'en') }}" style="text-decoration:none;color: {{ app()->getLocale() == 'en' ? 'var(--color-primary)' : 'var(--color-text-tertiary)' }}">EN</a>
-            </div>
+        <div class="user-pill">
             <div class="avatar">{{ auth()->user()->initials() }}</div>
             <div style="flex:1">
                 <div style="font-size:12px;font-weight:500">{{ auth()->user()->username }}</div>
@@ -185,5 +206,48 @@
 </script>
 
 @stack('scripts')
+
+<script>
+    // ─── Engine de Temas ───────────────────────────
+    function setTheme(mode) {
+        localStorage.setItem('theme', mode);
+        let activeTheme = mode;
+        if (mode === 'system') {
+            activeTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', activeTheme);
+        updateThemeUI(mode);
+    }
+
+    function updateThemeUI(mode) {
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.style.background = 'transparent';
+            btn.style.color = 'var(--color-text-tertiary)';
+            btn.style.boxShadow = 'none';
+        });
+        const activeBtn = document.querySelector(`.theme-btn[data-mode="${mode}"]`);
+        if (activeBtn) {
+            activeBtn.style.background = 'var(--color-background-primary)';
+            activeBtn.style.color = 'var(--color-text-primary)';
+            activeBtn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+        }
+    }
+
+    // Inicializa UI
+    document.addEventListener("turbo:load", function() {
+        const saved = localStorage.getItem('theme') || 'system';
+        updateThemeUI(saved);
+    });
+
+    // Escutar mudanças no SO se estiver no modo Sistema
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (localStorage.getItem('theme') === 'system' || !localStorage.getItem('theme')) {
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+    });
+    
+    // UI na primeira carga (sem turbo ativado)
+    updateThemeUI(localStorage.getItem('theme') || 'system');
+</script>
 </body>
 </html>

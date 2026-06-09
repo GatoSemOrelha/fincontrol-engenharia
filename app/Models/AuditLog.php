@@ -41,11 +41,11 @@ class AuditLog extends Model
     public function actionLabel(): string
     {
         return match ($this->action) {
-            'created' => 'Criado',
-            'updated' => 'Editado',
-            'deleted' => 'Excluído',
-            'paid' => 'Pago',
-            default => ucfirst($this->action),
+            'created' => __('Criado'),
+            'updated' => __('Editado'),
+            'deleted' => __('Excluído'),
+            'paid' => __('Pago'),
+            default => __(ucfirst($this->action)),
         };
     }
 
@@ -69,12 +69,12 @@ class AuditLog extends Model
     public function entityName(): string
     {
         return match ($this->auditable_type) {
-            'App\Models\Transaction' => 'Lançamento',
-            'App\Models\BankAccount' => 'Conta bancária',
-            'App\Models\Category' => 'Categoria',
-            'App\Models\User' => 'Usuário',
-            'App\Models\CreditCard' => 'Cartão de crédito',
-            'App\Models\Investment' => 'Investimento',
+            'App\Models\Transaction' => __('Lançamento'),
+            'App\Models\BankAccount' => __('Conta bancária'),
+            'App\Models\Category' => __('Categoria'),
+            'App\Models\User' => __('Usuário'),
+            'App\Models\CreditCard' => __('Cartão de crédito'),
+            'App\Models\Investment' => __('Investimento'),
             default => class_basename($this->auditable_type),
         };
     }

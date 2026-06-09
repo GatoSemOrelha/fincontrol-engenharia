@@ -30,8 +30,8 @@
                     <tr>
                         <td style="font-size:12px;color:var(--color-text-tertiary)">{{ $inv->invoice_number ?? '—' }}</td>
                         <td style="font-weight:500">{{ $inv->description }}</td>
-                        <td>R$ {{ number_format($inv->total_amount, 2, ',', '.') }}</td>
-                        <td style="color:var(--color-text-success)">R$ {{ number_format($inv->paid_total, 2, ',', '.') }}</td>
+                        <td>{{ money($inv->total_amount) }}</td>
+                        <td style="color:var(--color-text-success)">{{ money($inv->paid_total) }}</td>
                         <td>
                             @if($inv->remaining_installments > 0)
                                 <span class="badge badge-warning">{{ $inv->remaining_installments }} {{ __('restantes') }}</span>
@@ -69,7 +69,7 @@
             </div>
             <div class="form-row-3">
                 <div class="form-group">
-                    <label class="form-label">{{ __('Valor total (R$)') }}</label>
+                    <label class="form-label">{{ __('Valor total') }}</label>
                     <input type="number" name="total_amount" step="0.01" min="0.01" placeholder="0,00" required>
                 </div>
                 <div class="form-group">

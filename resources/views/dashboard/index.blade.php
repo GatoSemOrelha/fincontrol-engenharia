@@ -27,7 +27,7 @@
     @foreach($negativeAccounts as $account)
         <div class="alert alert-danger">
             <i class="ti ti-alert-triangle"></i>
-            {{ __('Conta') }} <strong>{{ $account->name }}</strong> {{ __('está negativa — saldo:') }} R$ {{ number_format($account->current_balance, 2, ',', '.') }}
+            {{ __('Conta') }} <strong>{{ $account->name }}</strong> {{ __('está negativa — saldo:') }} {{ money($account->current_balance) }}
         </div>
     @endforeach
 
@@ -36,26 +36,26 @@
         <div class="metric-card">
             <div class="metric-label">{{ __('Saldo consolidado') }}</div>
             <div class="metric-value" style="color:{{ $consolidatedBalance >= 0 ? 'var(--color-text-success)' : 'var(--color-text-danger)' }}">
-                R$ {{ number_format($consolidatedBalance, 2, ',', '.') }}
+                {{ money($consolidatedBalance) }}
             </div>
             <div class="metric-sub">{{ __('todas as contas') }}</div>
         </div>
         <div class="metric-card">
             <div class="metric-label">{{ __('Receitas no mês') }}</div>
             <div class="metric-value" style="color:var(--color-text-success)">
-                R$ {{ number_format($totals['total_income'], 2, ',', '.') }}
+                {{ money($totals['total_income']) }}
             </div>
         </div>
         <div class="metric-card">
             <div class="metric-label">{{ __('Despesas no mês') }}</div>
             <div class="metric-value" style="color:var(--color-text-danger)">
-                R$ {{ number_format($totals['total_expense'], 2, ',', '.') }}
+                {{ money($totals['total_expense']) }}
             </div>
         </div>
         <div class="metric-card">
             <div class="metric-label">{{ __('Em aberto') }}</div>
             <div class="metric-value" style="color:var(--color-text-warning)">
-                R$ {{ number_format($totals['pending_amount'], 2, ',', '.') }}
+                {{ money($totals['pending_amount']) }}
             </div>
             <div class="metric-sub">{{ $totals['pending_count'] }} {{ __('lançamentos') }}</div>
         </div>
@@ -70,7 +70,7 @@
                     <div class="bar-label">
                         <span>{{ $account->name }}</span>
                         <span style="color:{{ $account->current_balance >= 0 ? 'var(--color-text-success)' : 'var(--color-text-danger)' }};font-weight:500">
-                            R$ {{ number_format($account->current_balance, 2, ',', '.') }}
+                            {{ money($account->current_balance) }}
                         </span>
                     </div>
                     @php
@@ -91,7 +91,7 @@
                 <div class="bar-row">
                     <div class="bar-label">
                         <span>{{ $cat['category_name'] }}</span>
-                        <span>R$ {{ number_format($cat['total'], 2, ',', '.') }}</span>
+                        <span>{{ money($cat['total']) }}</span>
                     </div>
                     <div class="progress-bg">
                         <div class="progress-fill" style="width:{{ $cat['percentage'] }}%;background:var(--color-background-info)"></div>
@@ -121,7 +121,7 @@
                     @forelse($incomeByClient as $client)
                         <tr>
                             <td>{{ $client['client_name'] }}</td>
-                            <td style="color:var(--color-text-success)">R$ {{ number_format($client['total'], 2, ',', '.') }}</td>
+                            <td style="color:var(--color-text-success)">{{ money($client['total']) }}</td>
                             <td>{{ $client['count'] }}</td>
                             <td>{{ $client['percentage'] }}%</td>
                         </tr>

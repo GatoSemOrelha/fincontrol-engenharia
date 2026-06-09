@@ -26,6 +26,9 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Troca de Idioma (Público)
+Route::get('/lang/{locale}', [\App\Http\Controllers\LanguageController::class, 'switch'])->name('lang.switch');
+
 // ─── Rotas autenticadas ───────────────────────────
 Route::middleware(['auth'])->group(function () {
 
@@ -34,9 +37,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // Troca de Idioma
-    Route::get('/lang/{locale}', [\App\Http\Controllers\LanguageController::class, 'switch'])->name('lang.switch');
 
     // Lançamentos
     Route::resource('transactions', TransactionController::class)->except(['create', 'edit', 'show']);
@@ -72,6 +72,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reports/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
     Route::post('/reports/close', [ReportController::class, 'close'])->name('reports.close');
     Route::get('/reports/cash-flow', [ReportController::class, 'cashFlow'])->name('reports.cash-flow');
+
+    // Configurações
+    Route::get('/settings', [\App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings/currency', [\App\Http\Controllers\SettingsController::class, 'updateCurrency'])->name('settings.currency');
 
     // Auditoria
     Route::get('/audit', [AuditLogController::class, 'index'])->name('audit.index');

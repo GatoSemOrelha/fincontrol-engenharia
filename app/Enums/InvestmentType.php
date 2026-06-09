@@ -21,13 +21,13 @@ enum InvestmentType: string
     public function label(): string
     {
         return match ($this) {
-            self::CDB => 'CDB',
-            self::LCI => 'LCI',
-            self::LCA => 'LCA',
-            self::TESOURO_DIRETO => 'Tesouro Direto',
-            self::ACAO => 'Ação',
-            self::FUNDO_IMOBILIARIO => 'Fundo Imobiliário',
-            self::OUTRO => 'Outro',
+            self::CDB => __('CDB'),
+            self::LCI => __('LCI'),
+            self::LCA => __('LCA'),
+            self::TESOURO_DIRETO => __('Tesouro Direto'),
+            self::ACAO => __('Ação'),
+            self::FUNDO_IMOBILIARIO => __('Fundo Imobiliário'),
+            self::OUTRO => __('Outro'),
         };
     }
 }

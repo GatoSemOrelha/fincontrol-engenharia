@@ -10,39 +10,56 @@
 </div>
 
 <div class="content">
-    <div class="grid-3">
-        @foreach($cards as $card)
-            <div class="card">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-                    <div style="width:38px;height:38px;border-radius:var(--border-radius-md);background:var(--color-background-warning);display:flex;align-items:center;justify-content:center">
-                        <i class="ti ti-credit-card" style="color:var(--color-text-warning);font-size:18px"></i>
-                    </div>
-                    <div>
-                        <div style="font-size:14px;font-weight:500">{{ $card->name }}</div>
-                        <div style="font-size:12px;color:var(--color-text-secondary)">•••• {{ $card->last_four_digits }}</div>
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary);margin-bottom:8px">
-                    <span>{{ __('Fecha dia') }} {{ $card->closing_day }}</span>
-                    <span>{{ __('Vence dia') }} {{ $card->due_day }}</span>
-                </div>
-                <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">{{ __('Fatura aberta (RF06)') }}</div>
-                <div style="font-size:20px;font-weight:500;color:{{ $card->open_invoice_total > 0 ? 'var(--color-text-warning)' : 'var(--color-text-success)' }}">
-                    R$ {{ number_format($card->open_invoice_total, 2, ',', '.') }}
-                </div>
-                <div style="font-size:11px;color:var(--color-text-tertiary)">{{ $card->pending_count }} {{ __('lançamentos pendentes') }}</div>
-
-                @if($card->open_invoice_total > 0 && auth()->user()->isAdmin())
-                    <div style="margin-top:12px">
-                        <button class="btn btn-sm btn-success" onclick="openModal('modal-pay-{{ $card->id }}')" style="width:100%;justify-content:center">
-                            <i class="ti ti-check"></i>{{ __('Pagar fatura (RF08)') }}
-                        </button>
-                    </div>
-                @endif
+    @if($cards->isEmpty())
+        <div style="text-align:center;padding:40px 20px;margin-top:20px;">
+            <div style="width:64px;height:64px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                <i class="ti ti-credit-card-off" style="font-size:32px;color:var(--color-text-tertiary);"></i>
             </div>
-        @endforeach
-    </div>
+            <h3 style="margin-bottom:8px;color:var(--color-text-primary);">{{ __('Nenhum cartão cadastrado') }}</h3>
+            <p style="color:var(--color-text-secondary);margin-bottom:24px;font-size:14px;max-width:400px;margin-left:auto;margin-right:auto;">
+                {{ __('Você ainda não possui cartões de crédito. Cadastre seu primeiro cartão para começar a gerenciar suas faturas.') }}
+            </p>
+            @if(auth()->user()->isAdmin())
+                <button class="btn btn-primary" onclick="openModal('modal-card')" style="margin: 0 auto;">
+                    <i class="ti ti-plus"></i>{{ __('Cadastrar Cartão') }}
+                </button>
+            @endif
+        </div>
+    @else
+        <div class="grid-3">
+            @foreach($cards as $card)
+                <div class="card">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                        <div style="width:38px;height:38px;border-radius:var(--border-radius-md);background:var(--color-background-warning);display:flex;align-items:center;justify-content:center">
+                            <i class="ti ti-credit-card" style="color:var(--color-text-warning);font-size:18px"></i>
+                        </div>
+                        <div>
+                            <div style="font-size:14px;font-weight:500">{{ $card->name }}</div>
+                            <div style="font-size:12px;color:var(--color-text-secondary)">•••• {{ $card->last_four_digits }}</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary);margin-bottom:8px">
+                        <span>{{ __('Fecha dia') }} {{ $card->closing_day }}</span>
+                        <span>{{ __('Vence dia') }} {{ $card->due_day }}</span>
+                    </div>
+                    <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">{{ __('Fatura aberta (RF06)') }}</div>
+                    <div style="font-size:20px;font-weight:500;color:{{ $card->open_invoice_total > 0 ? 'var(--color-text-warning)' : 'var(--color-text-success)' }}">
+                        {{ money($card->open_invoice_total) }}
+                    </div>
+                    <div style="font-size:11px;color:var(--color-text-tertiary)">{{ $card->pending_count }} {{ __('lançamentos pendentes') }}</div>
+
+                    @if($card->open_invoice_total > 0 && auth()->user()->isAdmin())
+                        <div style="margin-top:12px">
+                            <button class="btn btn-sm btn-success" onclick="openModal('modal-pay-{{ $card->id }}')" style="width:100%;justify-content:center">
+                                <i class="ti ti-check"></i>{{ __('Pagar fatura (RF08)') }}
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+    @endif
 </div>
 
 {{-- Modal: Novo cartão --}}

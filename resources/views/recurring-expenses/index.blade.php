@@ -24,7 +24,7 @@
                 @forelse($expenses as $exp)
                     <tr>
                         <td style="font-weight:500">{{ $exp->description }}</td>
-                        <td style="color:var(--color-text-danger);font-weight:500">R$ {{ number_format($exp->amount, 2, ',', '.') }}</td>
+                        <td style="color:var(--color-text-danger);font-weight:500">{{ money($exp->amount) }}</td>
                         <td>{{ __('Dia') }} {{ $exp->day_of_month }}</td>
                         <td>{{ $exp->bankAccount->name }}</td>
                         <td>{{ $exp->category->name ?? '—' }}</td>
@@ -70,7 +70,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label">{{ __('Valor (R$)') }}</label>
+                    <label class="form-label">{{ __('Valor') }}</label>
                     <input type="number" name="amount" step="0.01" min="0.01" placeholder="0,00" required>
                 </div>
                 <div class="form-group">

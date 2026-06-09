@@ -28,7 +28,7 @@
                 @endif
                 <div class="divider"></div>
                 <div style="font-size:22px;font-weight:500;color:{{ $account->isNegative() ? 'var(--color-text-danger)' : 'var(--color-text-success)' }}">
-                    R$ {{ number_format($account->current_balance, 2, ',', '.') }}
+                    {{ money($account->current_balance) }}
                 </div>
                 <div style="font-size:12px;color:var(--color-text-tertiary)">{{ __('saldo atual') }}</div>
                 <div style="margin-top:12px;display:flex;gap:8px">
@@ -55,7 +55,7 @@
                 <input type="text" name="name" placeholder="{{ __('Ex: Safra Empresa') }}" required>
             </div>
             <div class="form-group">
-                <label class="form-label">{{ __('Saldo inicial (R$)') }}</label>
+                <label class="form-label">{{ __('Saldo inicial') }}</label>
                 <input type="number" name="initial_balance" step="0.01" placeholder="0,00" required>
             </div>
             <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">

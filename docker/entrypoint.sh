@@ -60,9 +60,11 @@ echo "[5/6] Criando link de storage..."
 php artisan storage:link --force --no-interaction 2>/dev/null || true
 
 # 6. Otimizar cache
-echo "[6/6] Otimizando aplicação..."
-php artisan config:clear --no-interaction 2>/dev/null || true
-php artisan view:clear --no-interaction 2>/dev/null || true
+echo "[6/6] Otimizando aplicação (Cache de config, rotas e views)..."
+php artisan config:cache --no-interaction 2>/dev/null || true
+php artisan route:cache --no-interaction 2>/dev/null || true
+php artisan view:cache --no-interaction 2>/dev/null || true
+php artisan event:cache --no-interaction 2>/dev/null || true
 
 echo ""
 echo "============================================"

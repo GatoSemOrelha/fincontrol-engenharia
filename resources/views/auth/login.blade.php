@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
-    <div style="position:absolute;top:20px;right:20px;display:flex;gap:15px;font-size:12px;font-weight:700;">
-        <a href="{{ route('lang.switch', 'pt_BR') }}" style="color: {{ app()->getLocale() == 'pt_BR' ? 'var(--color-primary)' : 'var(--color-text-tertiary)' }}; text-decoration: none;">PT-BR</a>
-        <a href="{{ route('lang.switch', 'en') }}" style="color: {{ app()->getLocale() == 'en' ? 'var(--color-primary)' : 'var(--color-text-tertiary)' }}; text-decoration: none;">EN</a>
+    <div style="position:absolute;top:20px;right:20px;z-index:100;background:var(--color-background-secondary);border-radius:20px;padding:4px;display:flex;gap:4px;box-shadow:0 2px 10px rgba(0,0,0,0.05);border:0.5px solid var(--color-border-tertiary);">
+        <a href="{{ route('lang.switch', 'pt_BR') }}" style="padding:4px 12px;font-size:11px;font-weight:600;text-decoration:none;border-radius:16px;background:{{ app()->getLocale() == 'pt_BR' ? 'var(--color-background-primary)' : 'transparent' }};color:{{ app()->getLocale() == 'pt_BR' ? 'var(--color-text-primary)' : 'var(--color-text-tertiary)' }};{{ app()->getLocale() == 'pt_BR' ? 'box-shadow:0 1px 3px rgba(0,0,0,0.1);' : '' }} transition:0.2s;">PT</a>
+        <a href="{{ route('lang.switch', 'en') }}" style="padding:4px 12px;font-size:11px;font-weight:600;text-decoration:none;border-radius:16px;background:{{ app()->getLocale() == 'en' ? 'var(--color-background-primary)' : 'transparent' }};color:{{ app()->getLocale() == 'en' ? 'var(--color-text-primary)' : 'var(--color-text-tertiary)' }};{{ app()->getLocale() == 'en' ? 'box-shadow:0 1px 3px rgba(0,0,0,0.1);' : '' }} transition:0.2s;">EN</a>
     </div>
     <div class="login-wrap">
         <div class="login-box">

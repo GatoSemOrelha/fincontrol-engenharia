@@ -20,7 +20,7 @@
             </select>
         </form>
         @if(auth()->user()->isAdmin())
-            <a href="{{ route('reports.export-pdf', ['year' => $year, 'month' => $month]) }}" class="btn btn-primary">
+            <a href="{{ route('reports.export-pdf', ['year' => $year, 'month' => $month]) }}" class="btn btn-primary" data-turbo="false" target="_blank" download>
                 <i class="ti ti-download"></i>{{ __('Exportar PDF') }}
             </a>
         @endif
@@ -39,16 +39,16 @@
     <div class="metrics-row" style="margin-bottom:20px">
         <div class="metric-card">
             <div class="metric-label">{{ __('Receitas') }}</div>
-            <div class="metric-value" style="color:var(--color-text-success)">R$ {{ number_format($report->total_income, 2, ',', '.') }}</div>
+            <div class="metric-value" @style(['color' => 'var(--color-text-success)'])>{{ money($report->total_income) }}</div>
         </div>
         <div class="metric-card">
             <div class="metric-label">{{ __('Despesas') }}</div>
-            <div class="metric-value" style="color:var(--color-text-danger)">R$ {{ number_format($report->total_expense, 2, ',', '.') }}</div>
+            <div class="metric-value" @style(['color' => 'var(--color-text-danger)'])>{{ money($report->total_expense) }}</div>
         </div>
         <div class="metric-card">
             <div class="metric-label">{{ __('Resultado líquido') }}</div>
-            <div class="metric-value" style="color:{{ $report->net_result >= 0 ? 'var(--color-text-success)' : 'var(--color-text-danger)' }}">
-                R$ {{ number_format($report->net_result, 2, ',', '.') }}
+            <div class="metric-value" @style(['color' => $report->net_result >= 0 ? 'var(--color-text-success)' : 'var(--color-text-danger)'])>
+                {{ money($report->net_result) }}
             </div>
         </div>
     </div>
@@ -58,8 +58,8 @@
             <div class="section-title">{{ __('Receitas por categoria') }}</div>
             @foreach($incomeByCategory as $cat)
                 <div class="bar-row">
-                    <div class="bar-label"><span>{{ $cat['category_name'] }}</span><span>R$ {{ number_format($cat['total'], 2, ',', '.') }}</span></div>
-                    <div class="progress-bg"><div class="progress-fill" style="width:{{ $cat['percentage'] }}%;background:var(--color-background-success)"></div></div>
+                    <div class="bar-label"><span>{{ $cat['category_name'] }}</span><span>{{ money($cat['total']) }}</span></div>
+                    <div class="progress-bg"><div class="progress-fill" @style(['width' => $cat['percentage'] . '%', 'background-color' => 'var(--color-background-success)'])></div></div>
                 </div>
             @endforeach
         </div>
@@ -67,8 +67,8 @@
             <div class="section-title">{{ __('Despesas por categoria') }}</div>
             @foreach($expensesByCategory as $cat)
                 <div class="bar-row">
-                    <div class="bar-label"><span>{{ $cat['category_name'] }}</span><span>R$ {{ number_format($cat['total'], 2, ',', '.') }}</span></div>
-                    <div class="progress-bg"><div class="progress-fill" style="width:{{ $cat['percentage'] }}%;background:var(--color-background-danger)"></div></div>
+                    <div class="bar-label"><span>{{ $cat['category_name'] }}</span><span>{{ money($cat['total']) }}</span></div>
+                    <div class="progress-bg"><div class="progress-fill" @style(['width' => $cat['percentage'] . '%', 'background-color' => 'var(--color-background-danger)'])></div></div>
                 </div>
             @endforeach
         </div>
