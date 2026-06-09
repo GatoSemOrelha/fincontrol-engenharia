@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
+    <div style="position:absolute;top:20px;right:20px;display:flex;gap:15px;font-size:12px;font-weight:700;">
+        <a href="{{ route('lang.switch', 'pt_BR') }}" style="color: {{ app()->getLocale() == 'pt_BR' ? 'var(--color-primary)' : 'var(--color-text-tertiary)' }}; text-decoration: none;">PT-BR</a>
+        <a href="{{ route('lang.switch', 'en') }}" style="color: {{ app()->getLocale() == 'en' ? 'var(--color-primary)' : 'var(--color-text-tertiary)' }}; text-decoration: none;">EN</a>
+    </div>
     <div class="login-wrap">
         <div class="login-box">
             <div class="login-logo">

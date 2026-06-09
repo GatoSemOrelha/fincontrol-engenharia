@@ -75,22 +75,11 @@
             @endif
         </div>
         
-        <div class="lang-switcher" style="padding: 15px 24px; display: flex; gap: 15px; justify-content: flex-start; border-top: 1px solid var(--color-border); font-size: 20px; margin-top: auto;">
-            <a href="{{ route('lang.switch', 'pt_BR') }}" @style([
-                'text-decoration: none',
-                'transition: 0.2s',
-                'filter: grayscale(0)' => app()->getLocale() == 'pt_BR',
-                'filter: grayscale(100%) opacity(50%)' => app()->getLocale() != 'pt_BR'
-            ]) title="Português">🇧🇷</a>
-            <a href="{{ route('lang.switch', 'en') }}" @style([
-                'text-decoration: none',
-                'transition: 0.2s',
-                'filter: grayscale(0)' => app()->getLocale() == 'en',
-                'filter: grayscale(100%) opacity(50%)' => app()->getLocale() != 'en'
-            ]) title="English">🇺🇸</a>
-        </div>
-
-        <div class="user-pill">
+        <div class="user-pill" style="margin-top:auto">
+            <div style="display:flex;gap:10px;margin-right:8px;font-size:11px;font-weight:bold;border-right:1px solid var(--color-border);padding-right:10px;align-items:center;">
+                <a href="{{ route('lang.switch', 'pt_BR') }}" style="text-decoration:none;color: {{ app()->getLocale() == 'pt_BR' ? 'var(--color-primary)' : 'var(--color-text-tertiary)' }}">PT</a>
+                <a href="{{ route('lang.switch', 'en') }}" style="text-decoration:none;color: {{ app()->getLocale() == 'en' ? 'var(--color-primary)' : 'var(--color-text-tertiary)' }}">EN</a>
+            </div>
             <div class="avatar">{{ auth()->user()->initials() }}</div>
             <div style="flex:1">
                 <div style="font-size:12px;font-weight:500">{{ auth()->user()->username }}</div>
