@@ -1,0 +1,46 @@
+# ============================================================
+# FinControl — Docker Ignore
+# Arquivos que NÃO devem ser copiados para o container
+# ============================================================
+
+# Dependências (serão instaladas no build)
+vendor/
+
+# Ambiente local
+.env
+.env.backup
+
+# Diretórios de cache/storage local
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/public/*
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker (não precisa copiar a si mesmo)
+docker-compose.yml
+docker-compose.override.yml
+
+# Testes
+tests/
+
+# Documentação
+*.md
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Node (se existir)
+node_modules/
