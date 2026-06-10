@@ -96,8 +96,8 @@
                 <a href="{{ route('users.index') }}" class="nav-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
                     <i class="ti ti-users"></i>{{ __('Usuários') }}
                 </a>
+                @endif
             </div>
-            @endif
         </div>
         
         <div class="user-pill">
