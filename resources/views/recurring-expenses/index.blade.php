@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="topbar">
-    <span class="topbar-title">{{ __('Despesas fixas recorrentes (RF09)') }}</span>
+    <span class="topbar-title">{{ __('Despesas fixas recorrentes') }}</span>
     @if(auth()->user()->isAdmin())
         <button class="btn btn-primary" onclick="openModal('modal-recurring')"><i class="ti ti-plus"></i>{{ __('Nova despesa fixa') }}</button>
     @endif

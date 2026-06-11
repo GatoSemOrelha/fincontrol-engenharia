@@ -31,8 +31,22 @@ class DashboardController extends Controller
         $year = $request->get('year', now()->year);
         $month = $request->get('month', now()->month);
 
-        // Métricas do mês
+        // Métricas do mês atual
         $totals = $this->transactionService->getMonthlyTotals($user->id, $year, $month);
+
+        // Métricas do mês anterior para comparativo
+        $prevDate = \Carbon\Carbon::create($year, $month, 1)->subMonth();
+        $prevTotals = $this->transactionService->getMonthlyTotals($user->id, $prevDate->year, $prevDate->month);
+
+        $calculateVariation = function ($current, $previous) {
+            if ($previous == 0) return $current > 0 ? 100 : 0;
+            return (($current - $previous) / abs($previous)) * 100;
+        };
+
+        $variations = [
+            'income' => $calculateVariation($totals['total_income'], $prevTotals['total_income']),
+            'expense' => $calculateVariation($totals['total_expense'], $prevTotals['total_expense']),
+        ];
 
         // Saldo consolidado (todas as contas)
         $accounts = $user->bankAccounts;
@@ -49,6 +63,7 @@ class DashboardController extends Controller
 
         return view('dashboard.index', compact(
             'totals',
+            'variations',
             'accounts',
             'consolidatedBalance',
             'negativeAccounts',

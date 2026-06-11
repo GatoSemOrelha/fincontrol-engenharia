@@ -10,8 +10,8 @@
 </head>
 <body>
     <div style="position:absolute;top:20px;right:20px;z-index:100;background:var(--color-background-secondary);border-radius:20px;padding:4px;display:flex;gap:4px;box-shadow:0 2px 10px rgba(0,0,0,0.05);border:0.5px solid var(--color-border-tertiary);">
-        <a href="{{ route('lang.switch', 'pt_BR') }}" style="padding:4px 12px;font-size:11px;font-weight:600;text-decoration:none;border-radius:16px;background:{{ app()->getLocale() == 'pt_BR' ? 'var(--color-background-primary)' : 'transparent' }};color:{{ app()->getLocale() == 'pt_BR' ? 'var(--color-text-primary)' : 'var(--color-text-tertiary)' }};{{ app()->getLocale() == 'pt_BR' ? 'box-shadow:0 1px 3px rgba(0,0,0,0.1);' : '' }} transition:0.2s;">PT</a>
-        <a href="{{ route('lang.switch', 'en') }}" style="padding:4px 12px;font-size:11px;font-weight:600;text-decoration:none;border-radius:16px;background:{{ app()->getLocale() == 'en' ? 'var(--color-background-primary)' : 'transparent' }};color:{{ app()->getLocale() == 'en' ? 'var(--color-text-primary)' : 'var(--color-text-tertiary)' }};{{ app()->getLocale() == 'en' ? 'box-shadow:0 1px 3px rgba(0,0,0,0.1);' : '' }} transition:0.2s;">EN</a>
+        <a href="{{ route('lang.switch', 'pt_BR') }}" {!! app()->getLocale() == 'pt_BR' ? 'style="padding:4px 12px;font-size:11px;font-weight:600;text-decoration:none;border-radius:16px;background:var(--color-background-primary);color:var(--color-text-primary);box-shadow:0 1px 3px rgba(0,0,0,0.1);transition:0.2s;"' : 'style="padding:4px 12px;font-size:11px;font-weight:600;text-decoration:none;border-radius:16px;background:transparent;color:var(--color-text-tertiary);transition:0.2s;"' !!}>PT</a>
+        <a href="{{ route('lang.switch', 'en') }}" {!! app()->getLocale() == 'en' ? 'style="padding:4px 12px;font-size:11px;font-weight:600;text-decoration:none;border-radius:16px;background:var(--color-background-primary);color:var(--color-text-primary);box-shadow:0 1px 3px rgba(0,0,0,0.1);transition:0.2s;"' : 'style="padding:4px 12px;font-size:11px;font-weight:600;text-decoration:none;border-radius:16px;background:transparent;color:var(--color-text-tertiary);transition:0.2s;"' !!}>EN</a>
     </div>
     <div class="login-wrap">
         <div class="login-box">
@@ -49,9 +49,7 @@
                     </button>
                 </form>
             </div>
-            <div style="text-align:center;font-size:11px;color:var(--color-text-tertiary);margin-top:12px">
-                {{ __('RF01 — Autenticação por e-mail e senha') }}
-            </div>
+
         </div>
     </div>
 </body>

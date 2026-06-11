@@ -46,10 +46,10 @@ Route::middleware(['auth'])->group(function () {
     // Contas bancárias
     Route::resource('bank-accounts', BankAccountController::class)->except(['create', 'edit', 'show']);
 
-    // Categorias (Apenas Admin)
-    Route::resource('categories', CategoryController::class)
-        ->except(['create', 'edit', 'show', 'destroy'])
-        ->middleware('role:Administrador');
+    // Categorias
+    Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::post('categories', [CategoryController::class, 'store'])->name('categories.store')->middleware('role:Administrador');
+    Route::put('categories/{category}', [CategoryController::class, 'update'])->name('categories.update')->middleware('role:Administrador');
 
     // Clientes
     Route::resource('clients', ClientController::class)->except(['create', 'edit', 'show']);

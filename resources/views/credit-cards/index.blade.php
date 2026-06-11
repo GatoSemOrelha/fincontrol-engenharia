@@ -43,7 +43,7 @@
                         <span>{{ __('Fecha dia') }} {{ $card->closing_day }}</span>
                         <span>{{ __('Vence dia') }} {{ $card->due_day }}</span>
                     </div>
-                    <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">{{ __('Fatura aberta (RF06)') }}</div>
+                    <div style="font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px">{{ __('Fatura aberta') }}</div>
                     <div style="font-size:20px;font-weight:500;color:{{ $card->open_invoice_total > 0 ? 'var(--color-text-warning)' : 'var(--color-text-success)' }}">
                         {{ money($card->open_invoice_total) }}
                     </div>
@@ -52,7 +52,7 @@
                     @if($card->open_invoice_total > 0 && auth()->user()->isAdmin())
                         <div style="margin-top:12px">
                             <button class="btn btn-sm btn-success" onclick="openModal('modal-pay-{{ $card->id }}')" style="width:100%;justify-content:center">
-                                <i class="ti ti-check"></i>{{ __('Pagar fatura (RF08)') }}
+                                <i class="ti ti-check"></i>{{ __('Pagar fatura') }}
                             </button>
                         </div>
                     @endif

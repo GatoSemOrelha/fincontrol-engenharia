@@ -74,7 +74,27 @@ class TransactionService
                 $data['invoice_document_url'] = $invoiceFile->store('invoices', 'public');
             }
 
-            $transaction->update($data);
+            $wasPending = !$transaction->isPaid();
+
+            $transaction->fill($data);
+            $isNowPaid = $transaction->status->value === 'PAID';
+
+            if ($isNowPaid && !isset($data['payment_date'])) {
+                $transaction->payment_date = now()->toDateString();
+            }
+
+            $transaction->save();
+
+            // Se mudou de PENDING para PAID durante a edição, ajustar saldo da conta
+            if ($wasPending && $isNowPaid) {
+                $this->bankAccountService->adjustBalance(
+                    $transaction->bankAccount,
+                    (float) $transaction->amount,
+                    $transaction->transaction_type->value
+                );
+                
+                $transaction->logCustomAudit('paid', ['status' => 'PENDING'], ['status' => 'PAID']);
+            }
 
             return $transaction->fresh();
         });

@@ -3,7 +3,15 @@
 
 @section('content')
 <div class="topbar">
-    <span class="topbar-title">{{ __('Projeção de fluxo de caixa — 6 meses') }}</span>
+    <span class="topbar-title">{{ __('Projeção de fluxo de caixa — ') }} {{ $months }} {{ __('meses') }}</span>
+    <div class="topbar-actions">
+        <form method="GET" action="{{ route('reports.cash-flow') }}" style="display:flex;gap:8px;align-items:center;background:var(--color-background-secondary);padding:4px;border-radius:12px">
+            <button type="submit" name="months" value="1" class="btn" {!! $months == 1 ? 'style="font-size:11px;padding:4px 8px;border-radius:8px;background:var(--color-background-primary);color:var(--color-text-primary);border:1px solid var(--color-border)"' : 'style="font-size:11px;padding:4px 8px;border-radius:8px;background:transparent;border:none"' !!}>{{ __('Próximo mês') }}</button>
+            <button type="submit" name="months" value="3" class="btn" {!! $months == 3 ? 'style="font-size:11px;padding:4px 8px;border-radius:8px;background:var(--color-background-primary);color:var(--color-text-primary);border:1px solid var(--color-border)"' : 'style="font-size:11px;padding:4px 8px;border-radius:8px;background:transparent;border:none"' !!}>{{ __('3 Meses') }}</button>
+            <button type="submit" name="months" value="6" class="btn" {!! $months == 6 ? 'style="font-size:11px;padding:4px 8px;border-radius:8px;background:var(--color-background-primary);color:var(--color-text-primary);border:1px solid var(--color-border)"' : 'style="font-size:11px;padding:4px 8px;border-radius:8px;background:transparent;border:none"' !!}>{{ __('6 Meses') }}</button>
+            <button type="submit" name="months" value="12" class="btn" {!! $months == 12 ? 'style="font-size:11px;padding:4px 8px;border-radius:8px;background:var(--color-background-primary);color:var(--color-text-primary);border:1px solid var(--color-border)"' : 'style="font-size:11px;padding:4px 8px;border-radius:8px;background:transparent;border:none"' !!}>{{ __('1 Ano') }}</button>
+        </form>
+    </div>
 </div>
 
 <div class="content">
@@ -23,7 +31,7 @@
     </div>
 
     <div class="card">
-        <div class="section-title">{{ __('Projeção mensal (RF11)') }}</div>
+        <div class="section-title">{{ __('Projeção mensal') }}</div>
         <div class="table-wrap" style="border:none">
             <table>
                 <thead>

@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
     <title>@yield('title', 'FinControl') — Gestão Financeira</title>
     <meta name="description" content="Sistema de gestão financeira empresarial">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=1.0.3">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=1.1.1">
     <meta name="view-transition" content="same-origin">
     <script type="module">
         import * as Turbo from 'https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.4/dist/turbo.es2017-esm.js';
@@ -51,7 +55,7 @@
                     <i class="ti ti-list"></i>{{ __('Lançamentos') }}
                 </a>
                 <a href="{{ route('bank-accounts.index') }}" class="nav-item {{ request()->routeIs('bank-accounts.*') ? 'active' : '' }}">
-                    <i class="ti ti-credit-card"></i>{{ __('Contas bancárias') }}
+                    <i class="ti ti-wallet"></i>{{ __('Contas bancárias') }}
                 </a>
                 <a href="{{ route('categories.index') }}" class="nav-item {{ request()->routeIs('categories.*') ? 'active' : '' }}">
                     <i class="ti ti-tag"></i>{{ __('Categorias') }}
@@ -106,6 +110,9 @@
                 <div style="font-size:12px;font-weight:500">{{ auth()->user()->username }}</div>
                 <div style="font-size:11px;color:var(--color-text-tertiary)">{{ auth()->user()->role->name }}</div>
             </div>
+            <button id="theme-toggle" style="background:none;border:none;cursor:pointer;padding:0;margin-right:8px" title="Alternar tema">
+                <i class="ti ti-moon" id="theme-icon" style="font-size:16px;color:var(--color-text-tertiary)"></i>
+            </button>
             <form action="{{ route('logout') }}" method="POST" style="display:inline">
                 @csrf
                 <button type="submit" style="background:none;border:none;cursor:pointer;padding:0">
@@ -127,6 +134,51 @@
     <i class="ti ti-circle-check"></i>
     <span id="toast-msg"></span>
 </div>
+
+<script>
+    document.addEventListener('turbo:load', () => {
+        // Theme Toggle Logic
+        const toggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        const updateIcon = (theme) => {
+            if (theme === 'amoled') {
+                themeIcon.classList.remove('ti-moon');
+                themeIcon.classList.add('ti-sun');
+            } else {
+                themeIcon.classList.remove('ti-sun');
+                themeIcon.classList.add('ti-moon');
+            }
+        };
+
+        if (toggleBtn && themeIcon) {
+            updateIcon(html.getAttribute('data-theme'));
+            toggleBtn.addEventListener('click', () => {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'amoled' ? 'light' : 'amoled';
+                
+                // Ativar transição suave
+                html.setAttribute('data-theme-transitioning', '');
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateIcon(newTheme);
+                
+                // Remover a flag de transição depois que terminar
+                setTimeout(() => html.removeAttribute('data-theme-transitioning'), 600);
+            });
+        }
+    });
+
+    const toast = document.getElementById('toast');
+    if (toast) {
+        setTimeout(() => toast.classList.add('show'), 100);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+</script>
 
 <script>
     // ─── Toast ────────────────────────────────────

@@ -123,7 +123,8 @@ class MonthlyReportService
         $safeName = \Illuminate\Support\Str::slug($report->periodLabel(), '_');
         return response()->download(
             Storage::disk('public')->path($report->pdf_path),
-            "FinControl_Relatorio_{$safeName}.pdf"
+            "FinControl_Relatorio_{$safeName}.pdf",
+            ['Content-Type' => 'application/pdf']
         );
     }
 }

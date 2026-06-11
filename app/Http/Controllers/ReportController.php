@@ -80,8 +80,9 @@ class ReportController extends Controller
     public function cashFlow(Request $request)
     {
         $user = $request->user();
-        $projection = $this->cashFlowService->project($user->id);
+        $months = (int) $request->get('months', 6);
+        $projection = $this->cashFlowService->project($user->id, $months);
 
-        return view('reports.cash-flow', compact('projection'));
+        return view('reports.cash-flow', compact('projection', 'months'));
     }
 }

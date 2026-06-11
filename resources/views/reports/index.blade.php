@@ -20,7 +20,7 @@
             </select>
         </form>
         @if(auth()->user()->isAdmin())
-            <a href="{{ route('reports.export-pdf', ['year' => $year, 'month' => $month]) }}" class="btn btn-primary" data-turbo="false" target="_blank" download>
+            <a href="{{ route('reports.export-pdf', ['year' => $year, 'month' => $month]) }}" class="btn btn-primary" data-turbo="false" target="_blank">
                 <i class="ti ti-download"></i>{{ __('Exportar PDF') }}
             </a>
         @endif

@@ -23,9 +23,9 @@
 </div>
 
 <div class="content">
-    {{-- Alerta de saldo negativo (RF04) --}}
+    {{-- Alerta de saldo negativo --}}
     @foreach($negativeAccounts as $account)
-        <div class="alert alert-danger">
+        <div class="alert alert-danger pulse-danger">
             <i class="ti ti-alert-triangle"></i>
             {{ __('Conta') }} <strong>{{ $account->name }}</strong> {{ __('está negativa — saldo:') }} {{ money($account->current_balance) }}
         </div>
@@ -41,13 +41,27 @@
             <div class="metric-sub">{{ __('todas as contas') }}</div>
         </div>
         <div class="metric-card">
-            <div class="metric-label">{{ __('Receitas no mês') }}</div>
+            <div class="metric-label" style="display:flex;justify-content:space-between;align-items:center">
+                {{ __('Receitas no mês') }}
+                @if(isset($variations['income']))
+                    <span class="badge" style="background: {{ $variations['income'] >= 0 ? 'var(--color-background-success)' : 'var(--color-background-danger)' }}; color: {{ $variations['income'] >= 0 ? 'var(--color-text-success)' : 'var(--color-text-danger)' }}; font-size: 10px; padding: 2px 6px;">
+                        {{ $variations['income'] > 0 ? '+' : '' }}{{ number_format($variations['income'], 1, ',', '.') }}%
+                    </span>
+                @endif
+            </div>
             <div class="metric-value" style="color:var(--color-text-success)">
                 {{ money($totals['total_income']) }}
             </div>
         </div>
         <div class="metric-card">
-            <div class="metric-label">{{ __('Despesas no mês') }}</div>
+            <div class="metric-label" style="display:flex;justify-content:space-between;align-items:center">
+                {{ __('Despesas no mês') }}
+                @if(isset($variations['expense']))
+                    <span class="badge" style="background: {{ $variations['expense'] <= 0 ? 'var(--color-background-success)' : 'var(--color-background-danger)' }}; color: {{ $variations['expense'] <= 0 ? 'var(--color-text-success)' : 'var(--color-text-danger)' }}; font-size: 10px; padding: 2px 6px;">
+                        {{ $variations['expense'] > 0 ? '+' : '' }}{{ number_format($variations['expense'], 1, ',', '.') }}%
+                    </span>
+                @endif
+            </div>
             <div class="metric-value" style="color:var(--color-text-danger)">
                 {{ money($totals['total_expense']) }}
             </div>
@@ -94,7 +108,7 @@
                         <span>{{ money($cat['total']) }}</span>
                     </div>
                     <div class="progress-bg">
-                        <div class="progress-fill" style="width:{{ $cat['percentage'] }}%;background:var(--color-background-info)"></div>
+                        <div class="progress-fill animate-bar" style="width:{{ $cat['percentage'] }}%;background:var(--color-background-info)"></div>
                     </div>
                 </div>
             @endforeach
@@ -108,7 +122,7 @@
     <div class="card">
         <div class="section-title" style="display:flex;justify-content:space-between;align-items:center">
             {{ __('Receitas por cliente') }}
-            <a href="{{ route('reports.export-pdf', ['year' => $year, 'month' => $month]) }}" class="btn" style="font-size:12px">
+            <a href="{{ route('reports.export-pdf', ['year' => $year, 'month' => $month]) }}" class="btn" style="font-size:12px" data-turbo="false" target="_blank">
                 <i class="ti ti-download"></i>{{ __('Exportar PDF') }}
             </a>
         </div>

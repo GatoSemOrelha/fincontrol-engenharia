@@ -4,89 +4,102 @@
     <meta charset="UTF-8">
     <title>{{ __('Relatório Mensal') }} — FinControl</title>
     <style>
-        @page { margin: 40px 40px; }
+        @page { margin: 35px; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Helvetica', 'Arial', sans-serif; font-size: 11px; color: #1a1a19; line-height: 1.5; background: #ffffff; }
 
-        .header { background: #042c53; color: white; padding: 30px; margin: -40px -40px 30px -40px; }
-        .header-content { width: 100%; display: table; }
-        .header-left { display: table-cell; vertical-align: middle; }
-        .header-right { display: table-cell; text-align: right; vertical-align: middle; }
+        .header { background: #042c53; color: white; padding: 20px; border-radius: 6px; margin-bottom: 25px; }
         
-        .header h1 { font-size: 22px; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 4px; color: #ffffff; }
-        .header p { font-size: 12px; opacity: 0.8; color: #f1efea; }
-        .header-badge { background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; color: #ffffff; }
+        .header h1 { font-size: 20px; font-weight: bold; margin-bottom: 4px; color: #ffffff; }
+        .header p { font-size: 12px; color: #e6f1fb; }
+        .header-badge { background: #185fa5; padding: 5px 10px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; color: #ffffff; display: inline-block; margin-bottom: 6px; }
 
-        .section { margin-bottom: 25px; }
-        .section-title { font-size: 14px; font-weight: bold; color: #042c53; border-bottom: 2px solid #e6f1fb; padding-bottom: 6px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .section { margin-bottom: 20px; }
+        .section-title { font-size: 13px; font-weight: bold; color: #042c53; border-bottom: 1px solid #cce0f5; padding-bottom: 4px; margin-bottom: 10px; text-transform: uppercase; }
 
-        .metrics-table { width: 100%; border-collapse: separate; border-spacing: 12px 0; margin: 0 -12px 25px -12px; }
-        .metrics-table td { width: 33.33%; background: #f5f5f4; border: 1px solid #eeede8; border-radius: 8px; padding: 16px; text-align: center; }
+        .metrics-table { width: 100%; border-collapse: separate; border-spacing: 10px 0; margin: 0 -10px 20px -10px; }
+        .metrics-table td { width: 33.33%; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 15px; text-align: center; }
         
-        .metric-label { font-size: 10px; color: #5f5e5a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .metric-label { font-size: 10px; color: #6c757d; text-transform: uppercase; margin-bottom: 4px; font-weight: bold; }
         .metric-value { font-size: 20px; font-weight: bold; }
         
-        .text-success { color: #3b6d11; }
-        .text-danger { color: #a32d2d; }
-        .text-info { color: #185fa5; }
+        .text-success { color: #2b8a3e; }
+        .text-danger { color: #e03131; }
+        .text-info { color: #1971c2; }
+        .text-muted { color: #868e96; }
 
         table.data-table { width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 10px; }
-        table.data-table th { background: #f5f5f4; padding: 8px 10px; text-align: left; font-weight: bold; color: #5f5e5a; border-top: 1px solid #eeede8; border-bottom: 2px solid #eeede8; text-transform: uppercase; letter-spacing: 0.5px; }
-        table.data-table td { padding: 8px 10px; border-bottom: 1px solid #eeede8; color: #1a1a19; }
-        table.data-table tr:nth-child(even) td { background: #fafafa; }
+        table.data-table th { background: #f1f3f5; padding: 8px; text-align: left; font-weight: bold; color: #495057; border-bottom: 1px solid #dee2e6; text-transform: uppercase; }
+        table.data-table td { padding: 8px; border-bottom: 1px solid #dee2e6; color: #212529; }
+        table.data-table tr:nth-child(even) td { background: #fdfdfd; }
         
         .font-weight-bold { font-weight: bold; }
         .text-right { text-align: right; }
         .text-center { text-align: center; }
 
-        .badge-status { padding: 3px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; text-transform: uppercase; }
-        .badge-paid { background: #eaf3de; color: #3b6d11; border: 1px solid #97c459; }
-        .badge-open { background: #faeeda; color: #854f0b; border: 1px solid #ef9f27; }
-
-        .footer { margin-top: 40px; padding-top: 15px; border-top: 1px solid #eeede8; font-size: 9px; color: #888780; text-align: center; width: 100%; position: fixed; bottom: 0; }
+        .badge-status { font-size: 9px; font-weight: bold; text-transform: uppercase; }
+        
+        .footer { margin-top: 30px; padding-top: 10px; border-top: 1px solid #dee2e6; font-size: 9px; color: #adb5bd; text-align: center; width: 100%; position: fixed; bottom: 0; }
         
         .page-break { page-break-before: always; }
         
-        .empty-state { text-align: center; padding: 20px; background: #f5f5f4; color: #888780; font-style: italic; border-radius: 6px; }
+        .empty-state { text-align: center; padding: 15px; background: #f8f9fa; color: #adb5bd; font-style: italic; border: 1px dashed #dee2e6; }
+        
+        table.layout-table { width: 100%; border-collapse: collapse; }
+        table.layout-table td { vertical-align: top; }
+        .spacer-td { width: 4%; }
+        .half-td { width: 48%; }
     </style>
 </head>
 <body>
     {{-- Header --}}
     <div class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <h1>{{ __('Relatório Mensal') }}</h1>
-                <p>FinControl — {{ __('Gestão Financeira') }}</p>
-            </div>
-            <div class="header-right">
-                <span class="header-badge">{{ $report->periodLabel() }}</span>
-                <p style="margin-top: 8px;">{{ __('Gerado em') }} {{ now()->format('d/m/Y H:i') }}</p>
-            </div>
-        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td style="width: 60%; vertical-align: middle;">
+                    <h1>{{ __('Relatório Mensal de Gestão') }}</h1>
+                    <p>FinControl — {{ __('Controle Financeiro e Resultados') }}</p>
+                </td>
+                <td style="width: 40%; text-align: right; vertical-align: middle;">
+                    <div class="header-badge">{{ $report->periodLabel() }}</div>
+                    <p>{{ __('Emitido em') }} {{ now()->format('d/m/Y H:i') }}</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    {{-- Resumo Executivo --}}
+    <div class="section">
+        <div class="section-title">{{ __('Resumo Executivo') }}</div>
+        <p style="color: #495057; text-align: justify;">
+            No período de <strong>{{ $report->periodLabel() }}</strong>, o faturamento total alcançou <strong class="text-success">{{ money($report->total_income) }}</strong>, 
+            enquanto os custos e despesas somaram <strong class="text-danger">{{ money($report->total_expense) }}</strong>. 
+            O resultado líquido (lucro ou prejuízo) do mês fechou em <strong class="{{ $report->net_result >= 0 ? 'text-info' : 'text-danger' }}">{{ money($report->net_result) }}</strong>.
+        </p>
     </div>
 
     {{-- Métricas Principais --}}
     <table class="metrics-table">
         <tr>
             <td>
-                <div class="metric-label">{{ __('Receitas') }}</div>
+                <div class="metric-label">{{ __('Receitas Totais') }}</div>
                 <div class="metric-value text-success">{{ money($report->total_income) }}</div>
             </td>
             <td>
-                <div class="metric-label">{{ __('Despesas') }}</div>
+                <div class="metric-label">{{ __('Despesas Totais') }}</div>
                 <div class="metric-value text-danger">{{ money($report->total_expense) }}</div>
             </td>
             <td>
                 <div class="metric-label">{{ __('Resultado Líquido') }}</div>
-                <div class="metric-value text-info">{{ money($report->net_result) }}</div>
+                <div class="metric-value {{ $report->net_result >= 0 ? 'text-info' : 'text-danger' }}">{{ money($report->net_result) }}</div>
             </td>
         </tr>
     </table>
 
-    {{-- Resumos por Categoria --}}
-    <table style="width: 100%; border-collapse: separate; border-spacing: 20px 0; margin: 0 -20px 25px -20px;">
+    {{-- Resumos por Categoria (2 Colunas com Tabela HTML) --}}
+    <table class="layout-table">
         <tr>
-            <td style="width: 50%; vertical-align: top;">
+            <td class="half-td">
                 <div class="section">
                     <div class="section-title">{{ __('Receitas por Categoria') }}</div>
                     @if(!empty($data['income_by_category']))
@@ -103,11 +116,12 @@
                             </tbody>
                         </table>
                     @else
-                        <div class="empty-state">{{ __('Nenhum dado encontrado.') }}</div>
+                        <div class="empty-state">{{ __('Nenhum dado de receita.') }}</div>
                     @endif
                 </div>
             </td>
-            <td style="width: 50%; vertical-align: top;">
+            <td class="spacer-td"></td>
+            <td class="half-td">
                 <div class="section">
                     <div class="section-title">{{ __('Despesas por Categoria') }}</div>
                     @if(!empty($data['expenses_by_category']))
@@ -124,55 +138,95 @@
                             </tbody>
                         </table>
                     @else
-                        <div class="empty-state">{{ __('Nenhum dado encontrado.') }}</div>
+                        <div class="empty-state">{{ __('Nenhum dado de despesa.') }}</div>
                     @endif
                 </div>
             </td>
         </tr>
     </table>
 
-    {{-- Receitas por Cliente --}}
-    <div class="section">
-        <div class="section-title">{{ __('Receitas por Cliente') }}</div>
-        @if(!empty($data['income_by_client']))
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>{{ __('Cliente') }}</th>
-                        <th class="text-center">{{ __('Lançamentos') }}</th>
-                        <th class="text-right">{{ __('Participação') }}</th>
-                        <th class="text-right">{{ __('Total') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($data['income_by_client'] as $client)
-                        <tr>
-                            <td>{{ $client['client_name'] }}</td>
-                            <td class="text-center">{{ $client['count'] }}</td>
-                            <td class="text-right">{{ $client['percentage'] }}%</td>
-                            <td class="text-right text-success font-weight-bold">{{ money($client['total']) }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @else
-            <div class="empty-state">{{ __('Nenhum cliente gerou receita neste período.') }}</div>
-        @endif
-    </div>
+    {{-- Novo detalhe: Top 5 Maiores Despesas --}}
+    @php
+        $expensesOnly = array_filter($data['transactions'] ?? [], fn($t) => $t['transaction_type'] === 'EXPENSE');
+        usort($expensesOnly, fn($a, $b) => $b['amount'] <=> $a['amount']);
+        $topExpenses = array_slice($expensesOnly, 0, 5);
+    @endphp
+
+    <table class="layout-table">
+        <tr>
+            <td class="half-td">
+                <div class="section">
+                    <div class="section-title">{{ __('Receitas por Cliente') }}</div>
+                    @if(!empty($data['income_by_client']))
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Cliente') }}</th>
+                                    <th class="text-center">{{ __('Qtd') }}</th>
+                                    <th class="text-right">{{ __('Total') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($data['income_by_client'] as $client)
+                                    <tr>
+                                        <td>{{ $client['client_name'] }}</td>
+                                        <td class="text-center">{{ $client['count'] }}</td>
+                                        <td class="text-right text-success font-weight-bold">{{ money($client['total']) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <div class="empty-state">{{ __('Nenhum cliente gerou receita.') }}</div>
+                    @endif
+                </div>
+            </td>
+            <td class="spacer-td"></td>
+            <td class="half-td">
+                <div class="section">
+                    <div class="section-title">{{ __('Top 5 Maiores Despesas') }}</div>
+                    @if(!empty($topExpenses))
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Descrição') }}</th>
+                                    <th>{{ __('Data') }}</th>
+                                    <th class="text-right">{{ __('Valor') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($topExpenses as $exp)
+                                    <tr>
+                                        <td>{{ \Illuminate\Support\Str::limit($exp['description'], 15) }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($exp['due_date'])->format('d/m/y') }}</td>
+                                        <td class="text-right text-danger font-weight-bold">{{ money($exp['amount']) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <div class="empty-state">{{ __('Nenhuma despesa registrada.') }}</div>
+                    @endif
+                </div>
+            </td>
+        </tr>
+    </table>
 
     {{-- Extrato Detalhado --}}
     <div class="page-break"></div>
     
     <div class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <h1>{{ __('Extrato Detalhado') }}</h1>
-                <p>FinControl — {{ __('Todas as Movimentações') }}</p>
-            </div>
-            <div class="header-right">
-                <span class="header-badge">{{ $report->periodLabel() }}</span>
-            </div>
-        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td style="width: 70%; vertical-align: middle;">
+                    <h1>{{ __('Extrato Analítico') }}</h1>
+                    <p>FinControl — {{ __('Todas as Movimentações do Período') }}</p>
+                </td>
+                <td style="width: 30%; text-align: right; vertical-align: middle;">
+                    <div class="header-badge">{{ $report->periodLabel() }}</div>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <div class="section">
@@ -205,9 +259,9 @@
                             </td>
                             <td class="text-center">
                                 @if($tx['status'] === 'PAID')
-                                    <span class="badge-status badge-paid">{{ __('Pago') }}</span>
+                                    <span class="badge-status text-success">{{ __('Pago') }}</span>
                                 @else
-                                    <span class="badge-status badge-open">{{ __('Em aberto') }}</span>
+                                    <span class="badge-status text-danger">{{ __('Aberto') }}</span>
                                 @endif
                             </td>
                             <td class="text-right font-weight-bold {{ $tx['transaction_type'] === 'INCOME' ? 'text-success' : 'text-danger' }}">
@@ -223,7 +277,7 @@
     </div>
 
     <div class="footer">
-        FinControl — {{ __('Sistema de Gestão Financeira') }} · {{ __('Relatório gerado automaticamente e imutável') }} · {{ now()->format('d/m/Y H:i:s') }}
+        FinControl — {{ __('Sistema de Gestão Financeira') }} · {{ __('Relatório gerado automaticamente') }} · {{ now()->format('d/m/Y H:i:s') }}
     </div>
 </body>
 </html>

@@ -123,8 +123,49 @@ a:hover { text-decoration: underline; }
 .nav-item { display: flex; align-items: center; gap: 8px; padding: 8px 16px; font-size: 13px; color: var(--color-text-secondary); cursor: pointer; border-left: 2px solid transparent; transition: all .15s; text-decoration: none; }
 .nav-item:hover { background: var(--color-background-primary); color: var(--color-text-primary); text-decoration: none; }
 .nav-item.active { background: var(--color-background-primary); color: var(--color-text-primary); border-left-color: var(--color-border-info); }
-.nav-item i { font-size: 16px; }
-.sidebar-inner { flex: 1; overflow-y: auto; }
+.nav-item i { font-size: 16px; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease; }
+.nav-item:hover i { transform: scale(1.2) rotate(-5deg); color: var(--color-text-info); }
+.sidebar-inner { flex: 1; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+.sidebar-inner::-webkit-scrollbar { width: 0; }
+
+/* Sidebar custom scrollbar — aparece suavemente no hover */
+.sidebar-inner {
+    position: relative;
+}
+.sidebar:hover .sidebar-inner { scrollbar-width: thin; scrollbar-color: var(--color-border-secondary) transparent; }
+.sidebar:hover .sidebar-inner::-webkit-scrollbar { width: 4px; }
+.sidebar:hover .sidebar-inner::-webkit-scrollbar-track { background: transparent; margin: 8px 0; }
+.sidebar:hover .sidebar-inner::-webkit-scrollbar-thumb {
+    background: var(--color-border-secondary);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+.sidebar:hover .sidebar-inner::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-tertiary);
+}
+
+/* Fade-out gradients no topo e base da sidebar para indicar scroll */
+.sidebar-inner::before,
+.sidebar-inner::after {
+    content: '';
+    position: sticky;
+    left: 0; right: 0;
+    height: 20px;
+    pointer-events: none;
+    z-index: 2;
+    display: block;
+    flex-shrink: 0;
+}
+.sidebar-inner::before {
+    top: 0;
+    background: linear-gradient(to bottom, var(--color-background-secondary) 0%, transparent 100%);
+    margin-bottom: -20px;
+}
+.sidebar-inner::after {
+    bottom: 0;
+    background: linear-gradient(to top, var(--color-background-secondary) 0%, transparent 100%);
+    margin-top: -20px;
+}
 .user-pill { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 0.5px solid var(--color-border-tertiary); }
 .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--color-background-info); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: var(--color-text-info); flex-shrink: 0; }
 
@@ -288,10 +329,253 @@ nav .flex-sm-fill { display: flex; flex-direction: column; align-items: center; 
 .content { view-transition-name: content-transition; }
 
 
-::view-transition-old(content-transition) { animation: 0.2s cubic-bezier(0.16, 1, 0.3, 1) both slideOutUp; }
-::view-transition-new(content-transition) { animation: 0.45s cubic-bezier(0.16, 1, 0.3, 1) both slideInUp; }
+::view-transition-old(content-transition) { animation: 0.2s cubic-bezier(0.16, 1, 0.3, 1) both fadeSlideOut; }
+::view-transition-new(content-transition) { animation: 0.4s cubic-bezier(0.16, 1, 0.3, 1) both fadeSlideIn; }
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.995); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeSlideOut {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to { opacity: 0; transform: translateY(-6px) scale(0.995); }
+}
 
 @keyframes slideInLeft { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes slideOutLeft { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(-12px); } }
 @keyframes slideInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideOutUp { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-12px); } }
+
+/* ─── Premium Micro-Animations ─────────────────────── */
+
+/* Staggered fade-in for cards, metric-cards, table rows */
+@keyframes staggerFadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.content .card,
+.content .metric-card {
+    animation: staggerFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.content .card:nth-child(1),
+.content .metric-card:nth-child(1) { animation-delay: 0.04s; }
+.content .card:nth-child(2),
+.content .metric-card:nth-child(2) { animation-delay: 0.09s; }
+.content .card:nth-child(3),
+.content .metric-card:nth-child(3) { animation-delay: 0.14s; }
+.content .card:nth-child(4),
+.content .metric-card:nth-child(4) { animation-delay: 0.19s; }
+.content .card:nth-child(5),
+.content .metric-card:nth-child(5) { animation-delay: 0.24s; }
+
+/* Table row fade-in */
+@keyframes rowFadeIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+tbody tr {
+    animation: rowFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+tbody tr:nth-child(1) { animation-delay: 0.02s; }
+tbody tr:nth-child(2) { animation-delay: 0.04s; }
+tbody tr:nth-child(3) { animation-delay: 0.06s; }
+tbody tr:nth-child(4) { animation-delay: 0.08s; }
+tbody tr:nth-child(5) { animation-delay: 0.10s; }
+tbody tr:nth-child(6) { animation-delay: 0.12s; }
+tbody tr:nth-child(7) { animation-delay: 0.14s; }
+tbody tr:nth-child(8) { animation-delay: 0.16s; }
+tbody tr:nth-child(9) { animation-delay: 0.18s; }
+tbody tr:nth-child(10) { animation-delay: 0.20s; }
+
+/* Premium hover glow on metric-cards */
+.metric-card {
+    position: relative;
+    overflow: hidden;
+}
+.metric-card::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at center, rgba(24,95,165,0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+.metric-card:hover::after {
+    opacity: 1;
+}
+
+/* Sidebar item hover — smooth slide */
+.nav-item {
+    position: relative;
+    overflow: hidden;
+}
+.nav-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, var(--color-background-primary) 100%);
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+.nav-item:hover::before {
+    opacity: 0.6;
+    transform: translateX(0);
+}
+.nav-item > * { position: relative; z-index: 1; }
+
+/* Smooth button press */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(0,0,0,0.08) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.btn:active::after {
+    opacity: 1;
+}
+
+/* Badge count bounce */
+@keyframes badgeBounce {
+    0%, 100% { transform: scale(1); }
+    40% { transform: scale(1.15); }
+    60% { transform: scale(0.95); }
+}
+.badge {
+    animation: badgeBounce 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: 0.3s;
+}
+
+/* Alert slide-in */
+@keyframes alertSlideIn {
+    from { opacity: 0; transform: translateX(-16px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+.alert { animation: alertSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+
+/* Pulse danger (saldo negativo) */
+@keyframes pulse-danger {
+    0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}
+.pulse-danger { animation: pulse-danger 2s infinite, alertSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+
+/* Progress bar grow animation */
+@keyframes grow-bar {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+.animate-bar { transform-origin: left; animation: grow-bar 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* Progress bar shimmer overlay */
+.animate-bar {
+    position: relative;
+    overflow: hidden;
+}
+.animate-bar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+    animation: barShimmer 1.8s ease-in-out infinite;
+    animation-delay: 0.8s;
+}
+@keyframes barShimmer {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+.skeleton { 
+    background: var(--color-background-secondary);
+    background-image: linear-gradient(90deg, var(--color-background-secondary) 0px, var(--color-background-primary) 50%, var(--color-background-secondary) 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear forwards;
+    border-radius: var(--border-radius-md);
+    color: transparent !important;
+}
+.skeleton * { visibility: hidden; }
+
+/* Theme transition smoothing */
+*, *::before, *::after {
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 0s;
+}
+html[data-theme-transitioning] *,
+html[data-theme-transitioning] *::before,
+html[data-theme-transitioning] *::after {
+    transition-duration: 0.5s !important;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Input focus glow */
+input:focus, select:focus, textarea:focus {
+    box-shadow: 0 0 0 3px rgba(24,95,165,0.12), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* Topbar entrance */
+@keyframes topbarSlide {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.topbar { animation: topbarSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+
+/* Modal premium entrance */
+.modal {
+    transform: scale(0.92) translateY(12px);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-overlay.open .modal {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* Chip hover animation */
+.chip {
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.chip:active {
+    transform: scale(0.96);
+}
+
+/* Login logo floating animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+.login-logo i {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Toast premium entrance */
+.toast {
+    transform: translateY(24px) scale(0.9);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast.show {
+    transform: translateY(0) scale(1);
+}

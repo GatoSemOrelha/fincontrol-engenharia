@@ -142,7 +142,7 @@
                     </select>
                 </div>
             </div>
-            {{-- Alerta de saldo negativo (RF04) --}}
+            {{-- Alerta de saldo negativo --}}
             <div class="alert alert-danger" id="balance-alert" style="display:none">
                 <i class="ti ti-alert-triangle"></i>
                 <span id="balance-alert-msg"></span>
@@ -200,7 +200,7 @@
         </div>
         <div style="margin-top:14px;padding:10px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px">
             <i class="ti ti-lock" style="font-size:14px"></i>
-            {{ __('Lançamento pago — edição bloqueada (RF03)') }}
+            {{ __('Lançamento pago — edição bloqueada') }}
         </div>
         <div style="display:flex;justify-content:flex-end;margin-top:16px">
             <button class="btn" onclick="closeModal('modal-detail-{{ $tx->id }}')">{{ __('Fechar') }}</button>
