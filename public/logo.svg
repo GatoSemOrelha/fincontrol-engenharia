@@ -20,9 +20,10 @@
     <path d="M5 6l7 -3l7 3" />
     <path d="M4 10l0 11" />
     <path d="M20 10l0 11" />
-    <path d="M8 14l0 3" />
-    <path d="M12 14l0 3" />
-    <path d="M16 14l0 3" />
+    <!-- Barras do gráfico (substituindo pilares) -->
+    <path d="M8 21l0 -4" />
+    <path d="M12 21l0 -7" />
+    <path d="M16 21l0 -10" />
   </g>
   <!-- Texto -->
   <text x="128" y="190" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="600" class="text" text-anchor="middle">FinControl</text>
